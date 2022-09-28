@@ -6,6 +6,8 @@ part 'downloads.g.dart';
 class Downloads with _$Downloads {
   const factory Downloads({
     @JsonKey(name: "poster_path") required String? posterPath,
+    // @JsonKey(name: "original_title") required String? title,
+    // @JsonKey(name: "overview") required String? overview,
   }) = _Downloads;
 
   factory Downloads.fromJson(Map<String, dynamic> json) =>

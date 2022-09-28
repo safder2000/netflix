@@ -12,6 +12,8 @@ const height_30 = SizedBox(
 );
 const pagePadding = EdgeInsets.all(8.0);
 
+const imageAppendUrl = "https://image.tmdb.org/t/p/w500";
+
 // Radius
 
 BorderRadius Radius_5 = BorderRadius.circular(5);
