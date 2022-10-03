@@ -33,6 +33,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       ));
       //get trending
       final _result = await _downloadsService.getDownloadsImages();
+
       final _state = _result.fold(
         (MainFailure f) {
           return const SearchState(
@@ -68,7 +69,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       ));
       final _result =
           await _searchService.searchMovies(movieQuery: event.movieQuery);
-
+      log(_result.toString());
       final _state = _result.fold((MainFailure f) {
         return const SearchState(
           searchResultList: [],

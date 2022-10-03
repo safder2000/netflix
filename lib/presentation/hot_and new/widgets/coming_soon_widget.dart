@@ -5,9 +5,21 @@ import '../../../core/constants.dart';
 import '../../widgets/icon_button_widget.dart';
 
 class ComingSoonWidget extends StatelessWidget {
-  const ComingSoonWidget({
-    Key? key,
-  }) : super(key: key);
+  final String id;
+  final String month;
+  final String day;
+  final String posterPath;
+  final String movieName;
+  final String description;
+
+  const ComingSoonWidget(
+      {super.key,
+      required this.id,
+      required this.month,
+      required this.day,
+      required this.posterPath,
+      required this.movieName,
+      required this.description});
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +30,14 @@ class ComingSoonWidget extends StatelessWidget {
         SizedBox(
           width: srcWidth * 0.15,
           child: Column(children: [
-            Text('OCT',
+            Text(month,
                 style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.bold,
                     color: Colors.grey.shade200)),
             Text(
-              '10',
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              day,
+              style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             )
           ]),
         ),
@@ -37,7 +49,7 @@ class ComingSoonWidget extends StatelessWidget {
             Stack(
               children: [
                 Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       fit: BoxFit.cover,
                       image: NetworkImage(
@@ -48,7 +60,7 @@ class ComingSoonWidget extends StatelessWidget {
                   width: srcWidth * 0.85,
                   height: srcWidth * 0.45,
                 ),
-                Positioned(
+                const Positioned(
                   right: 10,
                   bottom: 15,
                   child: CircleAvatar(
@@ -66,11 +78,17 @@ class ComingSoonWidget extends StatelessWidget {
             Row(
               children: [
                 SizedBox(
-                  height: 50,
-                  child: Image.network(
-                      'https://occ-0-299-990.1.nflxso.net/dnm/api/v6/tx1O544a9T7n8Z_G12qaboulQQE/AAAABYWW06_AXMSVM49APTcThb2CkqC-StVw6Utdsov1YHHzlqhXP9L834vsICkqEmIeu9eaJ9HOPNQ4D7cBbURv4iFdcgdgQinUAm-EMHcFlNs-yRzbNRNkAmzdny8POh2sRKpWSaKyqZmMGurnwciVPvXz0fxhl_1aXyvvCOnfajV3fwxczBUbgQ.png?r=cc7'),
+                  width: 200,
+                  child: Text(
+                    movieName,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        fontSize: 35,
+                        letterSpacing: -5,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
-                Spacer(),
+                const Spacer(),
                 IconButtonwidget(
                   title: 'Remind Me',
                   icon: Icons.notifications_none_outlined,
@@ -97,13 +115,14 @@ class ComingSoonWidget extends StatelessWidget {
             height_10,
             height_10,
             Text(
-              'Season Coming On 10 OCT',
+              'Season Coming On $day $month',
               style: hotnNewTabTitle,
             ),
             height_10,
             Text(
-              'In a dystropia with correption and cybernetic implants, a talented but recless street kid strives to become a mersonary outlow - an edgerunner',
+              description,
               style: hotnNewTabText,
+              maxLines: 4,
             ),
           ]),
         ),

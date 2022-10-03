@@ -81,7 +81,7 @@ class VideoListItem extends StatelessWidget {
                               // BlocProvider.of<FastLaughBloc>(context)
                               //     .add(UnlikeVideo(id: _index));
                             },
-                            child: VideoActionWidgets(
+                            child: const VideoActionWidgets(
                               icon: Icons.favorite,
                               title: 'LOL',
                             ),
