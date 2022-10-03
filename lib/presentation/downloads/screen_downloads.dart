@@ -38,11 +38,6 @@ class Section2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List imageList = [
-      'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/iOmEjLGuNb4v03hUtIJZFQWxdG9.jpg',
-      'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/bBqEiQbbfyt4MWR3NhDZMbS4Wp8.jpg',
-      'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/7jSWOc6jWSw5hZ78HB8Hw3pJxuk.jpg'
-    ];
     WidgetsBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<DownloadsBloc>(context)
           .add(const DownloadsEvent.getDownloadsImages());
@@ -98,7 +93,7 @@ class Section2 extends StatelessWidget {
                                 imageList:
                                     '$imageAppendUrl${state.downloads[0].posterPath}',
                                 // '${imageList[0]}',
-                                margin: EdgeInsets.only(left: 150, top: 15),
+                                margin: EdgeInsets.only(left: 150, top: 35),
                                 angle: 18,
                                 index: 0,
                               ),
@@ -107,12 +102,12 @@ class Section2 extends StatelessWidget {
                                 imageList:
                                     //  '${imageList[1]}',
                                     '$imageAppendUrl${state.downloads[1].posterPath}',
-                                margin: EdgeInsets.only(right: 150, top: 15),
+                                margin: EdgeInsets.only(right: 150, top: 35),
                                 angle: -18,
                                 index: 1,
                               ),
                               downloadsImageWidget(
-                                size: MediaQuery.of(context).size,
+                                size: MediaQuery.of(context).size * 1.05,
                                 imageList:
                                     //  '${imageList[2]}',
                                     '$imageAppendUrl${state.downloads[2].posterPath}',
@@ -217,7 +212,7 @@ class downloadsImageWidget extends StatelessWidget {
       child: Transform.rotate(
         angle: angle * pi / 180,
         child: Container(
-          width: size.width * 0.34,
+          width: size.width * 0.36,
           height: size.width * 0.515,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
