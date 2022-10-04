@@ -49,11 +49,11 @@ class ComingSoonWidget extends StatelessWidget {
             Stack(
               children: [
                 Container(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     image: DecorationImage(
                       fit: BoxFit.cover,
                       image: NetworkImage(
-                        'https://www.themoviedb.org/t/p/w533_and_h300_bestv2/3UbHGmu9vIMSC5uNfnGt7DjetqT.jpg',
+                        posterPath,
                       ),
                     ),
                   ),

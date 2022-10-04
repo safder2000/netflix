@@ -42,8 +42,7 @@ class SearchResult extends StatelessWidget {
                         final movie = state.searchResultList[index];
 
                         return MainCard(
-                          imageUrl: movie.posterImageUrl ??
-                              'https://www.cinemahalls.com/wp-content/uploads/2019/10/Picture-Not-Available-1.jpg',
+                          imageUrl: movie.posterImageUrl,
                         );
                       },
                     ),

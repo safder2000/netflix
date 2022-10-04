@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:netflix_app/application/fast_laugh/fast_laugh_bloc.dart';
@@ -6,6 +8,8 @@ import 'package:netflix_app/core/constants.dart';
 import 'package:netflix_app/domain/downloads/models/downloads.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:video_player/video_player.dart';
+
+late VideoPlayerController _videoPlayerController;
 
 class VideoListItemInheritedWidget extends InheritedWidget {
   final Widget widget;
@@ -27,6 +31,7 @@ class VideoListItemInheritedWidget extends InheritedWidget {
 
 class VideoListItem extends StatelessWidget {
   final int index;
+
   const VideoListItem({super.key, required this.index});
 
   @override
@@ -120,9 +125,15 @@ class VideoListItem extends StatelessWidget {
                         title: 'Share',
                       ),
                     ),
-                    const VideoActionWidgets(
-                      icon: Icons.play_arrow,
-                      title: 'Play',
+                    ValueListenableBuilder(
+                      valueListenable: null,
+                      builder: (BuildContext context, bool isPlaying,
+                          Widget? child) {
+                        return const VideoActionWidgets(
+                          icon: Icons.play_arrow,
+                          title: 'Play',
+                        );
+                      },
                     ),
                   ],
                 )
@@ -170,7 +181,6 @@ class FastLaughVideoPlayer extends StatefulWidget {
 }
 
 class FastLaugh_VideoPlayerState extends State<FastLaughVideoPlayer> {
-  late VideoPlayerController _videoPlayerController;
   @override
   void initState() {
     _videoPlayerController = VideoPlayerController.network(widget.videoUrl);
@@ -184,26 +194,39 @@ class FastLaugh_VideoPlayerState extends State<FastLaughVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: double.infinity,
-      child: _videoPlayerController.value.isInitialized
-          ? AspectRatio(
-              aspectRatio: _videoPlayerController.value.aspectRatio,
-              child: VideoPlayer(_videoPlayerController),
-            )
-          : const Center(
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
+    return GestureDetector(
+      onTap: () {
+        palyPlause();
+      },
+      child: SizedBox(
+        width: double.infinity,
+        height: double.infinity,
+        child: _videoPlayerController.value.isInitialized
+            ? AspectRatio(
+                aspectRatio: _videoPlayerController.value.aspectRatio,
+                child: VideoPlayer(_videoPlayerController),
+              )
+            : const Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                ),
               ),
-            ),
+      ),
     );
   }
 
-  @override
-  void dispose() {
-    _videoPlayerController.dispose();
-    // TODO: implement dispose
-    super.dispose();
+  palyPlause() {
+    setState(() {
+      _videoPlayerController.value.isPlaying
+          ? _videoPlayerController.pause()
+          : _videoPlayerController.play();
+    });
   }
+
+  // @override
+  // void dispose() {
+  //   _videoPlayerController.dispose();
+  //   // TODO: implement dispose
+  //   super.dispose();
+  // }
 }

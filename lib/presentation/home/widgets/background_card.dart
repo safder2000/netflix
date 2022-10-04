@@ -7,9 +7,11 @@ class BackgroundCard extends StatelessWidget {
   const BackgroundCard({
     Key? key,
     required this.srcWidth,
+    required this.ImageUrl,
   }) : super(key: key);
 
   final double srcWidth;
+  final String ImageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +20,10 @@ class BackgroundCard extends StatelessWidget {
         Container(
           width: double.infinity,
           height: srcWidth * 1.4,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: NetworkImage(
-                  'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/62HCnUTziyWcpDaBO2i1DX17ljH.jpg'),
+              image: NetworkImage(ImageUrl),
             ),
           ),
         ),

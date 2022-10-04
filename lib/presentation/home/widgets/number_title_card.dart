@@ -5,8 +5,10 @@ import '../../widgets/main_title.dart';
 import 'number_card.dart';
 
 class NumberTileCard extends StatelessWidget {
+  final List movieList;
   NumberTileCard({
     Key? key,
+    required this.movieList,
   }) : super(key: key);
 
   @override
@@ -27,9 +29,12 @@ class NumberTileCard extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               children: List.generate(
                 10,
-                (index) => NumberCard(
-                  index: index,
-                ),
+                (index) {
+                  return NumberCard(
+                    index: index,
+                    imageUrl: '$imageAppendUrl${movieList[index].backdropPath}',
+                  );
+                },
               ),
             ),
           )

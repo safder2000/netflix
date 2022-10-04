@@ -37,7 +37,7 @@ class HotAndNewImplimentation implements HotAndNewService {
   Future<Either<MainFailure, HotAndNewRespo>> getHotAndNewTvData() async {
     try {
       final response = await Dio(BaseOptions()).get(
-        ApiEndPoints.search,
+        ApiEndPoints.hotAndNewTv,
       );
       // log(response.data.toString());
 

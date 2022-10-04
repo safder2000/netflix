@@ -2,11 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:netflix_app/core/colors.dart';
 import 'package:netflix_app/core/constants.dart';
 
 import 'package:netflix_app/presentation/widgets/main_title_card.dart';
 
+import '../../application/hot_and_new/hot_and_new_bloc.dart';
 import '../widgets/profilePic.dart';
 import 'widgets/background_card.dart';
 import 'widgets/number_title_card.dart';
@@ -19,6 +21,7 @@ class ScreenHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final srcWidth = MediaQuery.of(context).size.width;
+    BlocProvider.of<HotAndNewBloc>(context).add(const LoadedDataInComingSoon());
     return Scaffold(
       body: ValueListenableBuilder(
         valueListenable: scrollNotifier,
@@ -36,23 +39,55 @@ class ScreenHome extends StatelessWidget {
             },
             child: Stack(
               children: [
-                ListView(
-                  children: [
-                    BackgroundCard(srcWidth: srcWidth),
-                    MainTitleCard(
-                      title: 'My List',
-                    ),
-                    NumberTileCard(),
-                    MainTitleCard(
-                      title: 'Popular On Netflix',
-                    ),
-                    MainTitleCard(
-                      title: 'Trending Now',
-                    ),
-                    MainTitleCard(
-                      title: 'Action & Adventure',
-                    ),
-                  ],
+                BlocBuilder<HotAndNewBloc, HotAndNewState>(
+                  builder: (context, state) {
+                    if (state.isLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.red,
+                        ),
+                      );
+                    } else if (state.hasError) {
+                      return const Center(
+                        child: Text('Error while loading ComingSoon list'),
+                      );
+                    } else if (state.comingSoonList.isEmpty) {
+                      return const Center(
+                        child: Text('ComingSoon list is empty'),
+                      );
+                    } else {
+                      return ListView(
+                        children: [
+                          BackgroundCard(
+                            srcWidth: srcWidth,
+                            ImageUrl:
+                                '$imageAppendUrl${state.comingSoonList[4].posterPath}' ??
+                                    'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/tVxDe01Zy3kZqaZRNiXFGDICdZk.jpg',
+                          ),
+                          MainTitleCard(
+                            title: 'My List',
+                            MovieList: state.comingSoonList,
+                          ),
+                          NumberTileCard(
+                            movieList: state.comingSoonList,
+                          ),
+                          MainTitleCard(
+                            title: 'Popular On Netflix',
+                            MovieList: state.comingSoonList,
+                          ),
+                          MainTitleCard(
+                            title: 'Trending Now',
+                            MovieList: state.comingSoonList,
+                          ),
+                          MainTitleCard(
+                            title: 'Action & Adventure',
+                            MovieList: state.comingSoonList,
+                          ),
+                        ],
+                      );
+                    }
+                  },
                 ),
                 Column(
                   children: [

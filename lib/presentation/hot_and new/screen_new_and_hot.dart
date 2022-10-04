@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:netflix_app/application/hot_and_new/hot_and_new_bloc.dart';
 import 'package:netflix_app/core/colors.dart';
 import 'package:netflix_app/core/constants.dart';
@@ -49,10 +50,12 @@ class ScreenNewAndHot extends StatelessWidget {
                 ],
               ),
             ),
-            Expanded(
+            const Expanded(
               child: TabBarView(children: [
-                const ComingSoonList(key: Key('coming_soon')),
-                SizedBox()
+                ComingSoonList(key: Key('coming_soon')),
+                EveryoneIsWatching(
+                  key: Key('everyone_is_watching'),
+                )
 
                 // _buildTabBarView('2', srcWidth),
               ]),
@@ -105,10 +108,60 @@ class ComingSoonList extends StatelessWidget {
                 if (movie.id == null) {
                   return SizedBox();
                 }
+                final _date = DateTime.parse(movie.releaseDate!);
+                final formatedDate = DateFormat.yMMMMd('en_US').format(_date);
                 return ComingSoonWidget(
                     id: movie.id.toString(),
-                    month: 'MAR',
-                    day: "11",
+                    month: formatedDate
+                        .split(' ')
+                        .first
+                        .substring(0, 3)
+                        .toUpperCase(),
+                    day: movie.releaseDate!.split('-')[1],
+                    posterPath: '$imageAppendUrl${movie.backdropPath}',
+                    movieName: movie.title ?? 'No title',
+                    description: movie.overview ?? 'No Overview');
+              });
+        }
+      },
+    );
+  }
+}
+
+class EveryoneIsWatching extends StatelessWidget {
+  const EveryoneIsWatching({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    BlocProvider.of<HotAndNewBloc>(context).add(const LoadedDataInComingSoon());
+    return BlocBuilder<HotAndNewBloc, HotAndNewState>(
+      builder: (context, state) {
+        if (state.isLoading) {
+          return const Center(
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              color: Colors.red,
+            ),
+          );
+        } else if (state.hasError) {
+          return const Center(
+            child: Text('Error while loading ComingSoon list'),
+          );
+        } else if (state.everyoneIsWatchList.isEmpty) {
+          return const Center(
+            child: Text('everyone Is Watching List list is empty'),
+          );
+        } else {
+          return ListView.builder(
+              itemCount: state.everyoneIsWatchList.length,
+              itemBuilder: (BuildContext context, index) {
+                final movie = state.everyoneIsWatchList[index];
+                if (movie.id == null) {
+                  return SizedBox();
+                }
+                final _date = DateTime.parse(movie.releaseDate!);
+                final formatedDate = DateFormat.yMMMMd('en_US').format(_date);
+                return EveryoneWatching(
                     posterPath: '$imageAppendUrl${movie.backdropPath}',
                     movieName: movie.title ?? 'No title',
                     description: movie.overview ?? 'No Overview');
