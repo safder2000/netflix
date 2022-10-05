@@ -56,7 +56,7 @@ class ScreenSearch extends StatelessWidget {
               if (state.searchResultList.isEmpty) {
                 return const SearchIdle();
               } else {
-                return const SearchResult();
+                return SearchResult();
               }
             },
           )),

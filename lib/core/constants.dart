@@ -24,3 +24,5 @@ TextStyle hotnNewTabTitle =
     const TextStyle(fontSize: 15, fontWeight: FontWeight.bold);
 TextStyle hotnNewTabText =
     const TextStyle(fontSize: 13, color: Colors.white70, height: 1.5);
+TextStyle catagoriesTextStyle = const TextStyle(
+    fontSize: 15, color: Color.fromARGB(229, 255, 255, 255), height: 1.5);

@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:netflix_app/core/colors.dart';
 import 'package:netflix_app/core/constants.dart';
+import 'package:netflix_app/presentation/widgets/catogories.dart';
 
 import 'package:netflix_app/presentation/widgets/main_title_card.dart';
 
@@ -57,6 +57,9 @@ class ScreenHome extends StatelessWidget {
                         child: Text('ComingSoon list is empty'),
                       );
                     } else {
+                      final list = state.comingSoonList;
+                      list.shuffle;
+
                       return ListView(
                         children: [
                           BackgroundCard(
@@ -67,22 +70,22 @@ class ScreenHome extends StatelessWidget {
                           ),
                           MainTitleCard(
                             title: 'My List',
-                            MovieList: state.comingSoonList,
+                            MovieList: list,
                           ),
                           NumberTileCard(
-                            movieList: state.comingSoonList,
+                            movieList: list,
                           ),
                           MainTitleCard(
                             title: 'Popular On Netflix',
-                            MovieList: state.comingSoonList,
+                            MovieList: list,
                           ),
                           MainTitleCard(
                             title: 'Trending Now',
-                            MovieList: state.comingSoonList,
+                            MovieList: list,
                           ),
                           MainTitleCard(
                             title: 'Action & Adventure',
-                            MovieList: state.comingSoonList,
+                            MovieList: list,
                           ),
                         ],
                       );
@@ -137,14 +140,27 @@ class ScreenHome extends StatelessWidget {
                             style: homeTitleText,
                           ),
                           Text('Movies', style: homeTitleText),
-                          Row(
-                            children: [
-                              Text('Categories', style: homeTitleText),
-                              Icon(
-                                Icons.arrow_drop_down,
-                                color: whiteColor,
-                              )
-                            ],
+                          GestureDetector(
+                            onTap: () {
+                              var dialog = CustomAlertDialog(
+                                  message:
+                                      "Are you sure, do you want to logout?",
+                                  onPostivePressed: () {},
+                                  positiveBtnText: 'Yes',
+                                  negativeBtnText: 'No');
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) => dialog);
+                            },
+                            child: Row(
+                              children: [
+                                Text('Categories', style: homeTitleText),
+                                Icon(
+                                  Icons.arrow_drop_down,
+                                  color: whiteColor,
+                                )
+                              ],
+                            ),
                           )
                         ],
                       ),

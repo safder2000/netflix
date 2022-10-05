@@ -9,8 +9,6 @@ import 'package:netflix_app/domain/downloads/models/downloads.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:video_player/video_player.dart';
 
-late VideoPlayerController _videoPlayerController;
-
 class VideoListItemInheritedWidget extends InheritedWidget {
   final Widget widget;
   final Downloads movieData;
@@ -126,12 +124,18 @@ class VideoListItem extends StatelessWidget {
                       ),
                     ),
                     ValueListenableBuilder(
-                      valueListenable: null,
+                      valueListenable: playPauseNotifier,
                       builder: (BuildContext context, bool isPlaying,
                           Widget? child) {
+                        if (isPlaying) {
+                          return const VideoActionWidgets(
+                            icon: Icons.play_arrow,
+                            title: 'Play',
+                          );
+                        }
                         return const VideoActionWidgets(
-                          icon: Icons.play_arrow,
-                          title: 'Play',
+                          icon: Icons.pause,
+                          title: 'Pause',
                         );
                       },
                     ),
@@ -181,6 +185,7 @@ class FastLaughVideoPlayer extends StatefulWidget {
 }
 
 class FastLaugh_VideoPlayerState extends State<FastLaughVideoPlayer> {
+  late VideoPlayerController _videoPlayerController;
   @override
   void initState() {
     _videoPlayerController = VideoPlayerController.network(widget.videoUrl);
@@ -196,7 +201,15 @@ class FastLaugh_VideoPlayerState extends State<FastLaughVideoPlayer> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        palyPlause();
+        if (_videoPlayerController.value.isPlaying == true) {
+          playPauseNotifier.value = true;
+          playPauseNotifier.notifyListeners();
+          _videoPlayerController.pause();
+        } else {
+          playPauseNotifier.value = false;
+          playPauseNotifier.notifyListeners();
+          _videoPlayerController.play();
+        }
       },
       child: SizedBox(
         width: double.infinity,
@@ -215,18 +228,10 @@ class FastLaugh_VideoPlayerState extends State<FastLaughVideoPlayer> {
     );
   }
 
-  palyPlause() {
-    setState(() {
-      _videoPlayerController.value.isPlaying
-          ? _videoPlayerController.pause()
-          : _videoPlayerController.play();
-    });
+  @override
+  void dispose() {
+    _videoPlayerController.dispose();
+    // TODO: implement dispose
+    super.dispose();
   }
-
-  // @override
-  // void dispose() {
-  //   _videoPlayerController.dispose();
-  //   // TODO: implement dispose
-  //   super.dispose();
-  // }
 }

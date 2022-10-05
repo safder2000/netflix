@@ -58,9 +58,14 @@ class EveryoneWatching extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text(
-                    movieName,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  SizedBox(
+                    width: 200,
+                    child: Text(
+                      movieName,
+                      overflow: TextOverflow.ellipsis,
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
                   ),
                   IconButtonwidget(
                     title: 'Share',
@@ -93,6 +98,7 @@ class EveryoneWatching extends StatelessWidget {
               Text(
                 description,
                 style: hotnNewTabText,
+                maxLines: 5,
               ),
               height_10,
               // Text(

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -83,6 +85,7 @@ class ComingSoonList extends StatelessWidget {
     //       .add(const LoadedDataInComingSoon());
     // });
     BlocProvider.of<HotAndNewBloc>(context).add(const LoadedDataInComingSoon());
+    log("loadinggggg");
     return BlocBuilder<HotAndNewBloc, HotAndNewState>(
       builder: (context, state) {
         if (state.isLoading) {
@@ -133,7 +136,8 @@ class EveryoneIsWatching extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<HotAndNewBloc>(context).add(const LoadedDataInComingSoon());
+    BlocProvider.of<HotAndNewBloc>(context)
+        .add(const LoadedDataInEveryoneIsWatching());
     return BlocBuilder<HotAndNewBloc, HotAndNewState>(
       builder: (context, state) {
         if (state.isLoading) {
@@ -153,17 +157,17 @@ class EveryoneIsWatching extends StatelessWidget {
           );
         } else {
           return ListView.builder(
-              itemCount: state.everyoneIsWatchList.length,
+              itemCount: state.everyoneIsWatchList.length - 1,
               itemBuilder: (BuildContext context, index) {
                 final movie = state.everyoneIsWatchList[index];
                 if (movie.id == null) {
+                  final a = state.everyoneIsWatchList.shuffle;
                   return SizedBox();
                 }
-                final _date = DateTime.parse(movie.releaseDate!);
-                final formatedDate = DateFormat.yMMMMd('en_US').format(_date);
+
                 return EveryoneWatching(
                     posterPath: '$imageAppendUrl${movie.backdropPath}',
-                    movieName: movie.title ?? 'No title',
+                    movieName: movie.name ?? 'No title',
                     description: movie.overview ?? 'No Overview');
               });
         }

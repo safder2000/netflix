@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:netflix_app/core/constants.dart';
 import 'package:netflix_app/presentation/widgets/main_title.dart';
@@ -15,6 +17,7 @@ class MainTitleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // MovieList.shuffle;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 13),
       child: Column(

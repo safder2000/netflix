@@ -46,6 +46,8 @@ class HotAndNewData {
 
   @JsonKey(name: 'title')
   String? title;
+  @JsonKey(name: 'name')
+  String? name;
 
   HotAndNewData({
     this.backdropPath,
@@ -56,6 +58,7 @@ class HotAndNewData {
     this.posterPath,
     this.releaseDate,
     this.title,
+    this.name,
   });
 
   factory HotAndNewData.fromJson(Map<String, dynamic> json) {

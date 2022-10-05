@@ -57,7 +57,7 @@ class HotAndNewBloc extends Bloc<HotAndNewEvent, HotAndNewState> {
       final _result = await _hotAndNewService.getHotAndNewTvData();
       log(_result.toString());
       //data to state
-      final newState = _result.fold((MainFailure failure) {
+      final _newState = _result.fold((MainFailure failure) {
         return const HotAndNewState(
             comingSoonList: [],
             everyoneIsWatchList: [],
@@ -65,13 +65,13 @@ class HotAndNewBloc extends Bloc<HotAndNewEvent, HotAndNewState> {
             hasError: true);
       }, (HotAndNewRespo resp) {
         return HotAndNewState(
-            comingSoonList: resp.results!,
-            everyoneIsWatchList: state.everyoneIsWatchList,
+            comingSoonList: state.comingSoonList!,
+            everyoneIsWatchList: resp.results!,
             isLoading: false,
             hasError: false);
       });
 
-      emit(newState);
+      emit(_newState);
     });
   }
 }

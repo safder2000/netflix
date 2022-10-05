@@ -11,8 +11,8 @@ import 'package:netflix_app/presentation/search/widgets/title.dart';
 //     'https://www.themoviedb.org/t/p/w220_and_h330_face/ggFHVNu6YYI5L9pCfOacjizRGt.jpg';
 
 class SearchResult extends StatelessWidget {
-  const SearchResult({super.key});
-
+  SearchResult({super.key, this.searchValue = 'Movies & TV'});
+  String searchValue;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -21,7 +21,7 @@ class SearchResult extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SearchTextTitle(
-            title: 'Movies & TV',
+            title: searchValue,
           ),
           height_10,
           Expanded(
